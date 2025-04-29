@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小红书数据赋能平台 - MCP全流程</title>
+    <link href="https://s2.ssl.qhres2.com/static/56662140ef7d5d03.css"  rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css"  rel="stylesheet">
+    <script src="https://s2.ssl.qhres2.com/!2dd0bbf7/echats.js"></script> 
+    <style>
+        :root {
+            --primary: #FF2442;
+            --secondary: #FF6B81;
+            --dark: #2D2D2D;
+            --light: #F8F9FA;
+            --accent: #FFD166;
+            --success: #06D6A0;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--dark);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 36, 66, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 36, 66, 0.4);
+        }
+        
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            height: 500px;
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .data-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+        
+        .data-label {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .api-section {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .api-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .api-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .api-method {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        
+        .get {
+            background-color: rgba(0,200,83,0.1);
+            color: #00C853;
+        }
+        
+        .post {
+            background-color: rgba(33,150,243,0.1);
+            color: #2196F3;
+        }
+        
+        .api-url {
+            font-family: monospace;
+            background-color: rgba(0,0,0,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        .api-description {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .param-table th, .param-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .param-table th {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .param-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .code-block {
+            background-color: #2D2D2D;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .code-keyword {
+            color: #66D9EF;
+        }
+        
+        .code-string {
+            color: #E6DB74;
+        }
+        
+        .code-comment {
+            color: #75715E;
+        }
+        
+        .code-number {
+            color: #AE81FF;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">MCP<span>数据</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">功能</a></li>
+                        <li><a href="#dashboard">数据看板</a></li>
+                        <li><a href="#api">API文档</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>小红书数据赋能平台</h1>
+            <p>专业的MCP全流程解决方案，为小红书从业者提供实时销量监控、爆款分析、达人评估等全方位数据服务，助力商业决策。</p>
+            <a href="#contact" class="cta-button">立即体验</a>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心功能</h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>商品销量实时监控</h3>
+                    <p>按关键词或商品ID抓取小红书商品详情页的销量数据，支持历史销量趋势分析和未来30天销量预测。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>爆款笔记分析</h3>
+                    <p>采集爆款笔记的互动数据（点赞/收藏/评论）、流量来源（搜索/推荐占比）及标签话题热度。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>达人数据评估</h3>
+                    <p>批量导出达人主页公开数据，分析达人历史合作品牌的CPE、CPM等商业化数据，评估带货效果。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>带货转化分析</h3>
+                    <p>分析达人直播带货的UV价值、订单转化漏斗（曝光-点击-下单），量化带货效果。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>行业榜单</h3>
+                    <p>按行业/品类筛选商品销量TOP100榜单，支持按时间维度回溯历史数据。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>定时任务</h3>
+                    <p>可配置定时任务自动采集数据，支持云采集服务批量导出数据，提高工作效率。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="section-title">
+                <h2>数据可视化看板</h2>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">商品销量趋势分析</div>
+                <div id="salesChart" style="width: 100%; height: 400px;"></div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="data-label">今日新增爆款笔记</div>
+                    <div class="data-value">1,284</div>
+                    <div class="data-label">较昨日 <span style="color: var(--success);">↑12.5%</span></div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="data-label">平均互动成本(CPE)</div>
+                    <div class="data-value">¥0.68</div>
+                    <div class="data-label">行业平均 ¥0.82</div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="data-label">达人平均转化率</div>
+                    <div class="data-value">3.2%</div>
+                    <div class="data-label">头部达人 5.8%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="api" class="api-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>API文档</h2>
+            </div>
+            
+            <div class="api-card">
+                <div class="api-header">
+                    <div>
+                        <span class="api-method get">GET</span>
+                        <span class="api-url">/api/v1/product/sales?product_id={product_id}&start_date={start_date}&end_date={end_date}</span>
+                    </div>
+                </div>
+                <div class="api-description">
+                    获取指定商品的历史销量数据，支持时间范围筛选。
+                </div>
+                
+                <h4>请求参数</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>类型</th>
+                            <th>是否必填</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>product_id</td>
+                            <td>string</td>
+                            <td>是</td>
+                            <td>小红书商品ID</td>
+                        </tr>
+                        <tr>
+                            <td>start_date</td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>起始日期，格式YYYY-MM-DD</td>
+                        </tr>
+                        <tr>
+                            <td>end_date</td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>结束日期，格式YYYY-MM-DD</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>响应示例</h4>
+                <div class="code-block">
+                    <span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;<span class="code-string">"status"</span>: <span class="code-number">200</span>,<br>
+                    &nbsp;&nbsp;<span class="code-string">"data"</span>: <span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"product_id"</span>: <span class="code-string">"5eb1097ba091410953951d17"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"product_name"</span>: <span class="code-string">"某品牌精华液"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"sales_data"</span>: <span class="code-keyword">[</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">{</span><span class="code-string">"date"</span>: <span class="code-string">"2025-04-01"</span>, <span class="code-string">"sales"</span>: <span class="code-number">128</span><span class="code-keyword">}</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">{</span><span class="code-string">"date"</span>: <span class="code-string">"2025-04-02"</span>, <span class="code-string">"sales"</span>: <span class="code-number">156</span><span class="code-keyword">}</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// ...更多数据</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">]</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"forecast"</span>: <span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"min"</span>: <span class="code-number">120</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"max"</span>: <span class="code-number">180</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">}</span><br>
+                    &nbsp;&nbsp;<span class="code-keyword">}</span><br>
+                    <span class="code-keyword">}</span>
+                </div>
+            </div>
+            
+            <div class="api-card">
+                <div class="api-header">
+                    <div>
+                        <span class="api-method post">POST</span>
+                        <span class="api-url">/api/v1/kols/search</span>
+                    </div>
+                </div>
+                <div class="api-description">
+                    根据条件搜索小红书达人，支持多种筛选条件。
+                </div>
+                
+                <h4>请求参数</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>类型</th>
+                            <th>是否必填</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>fans_min</td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>粉丝数下限</td>
+                        </tr>
+                        <tr>
+                            <td>fans_max</td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>粉丝数上限</td>
+                        </tr>
+                        <tr>
+                            <td>category</td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>内容分类，多个用逗号分隔</td>
+                        </tr>
+                        <tr>
+                            <td>cpe_max</td>
+                            <td>float</td>
+                            <td>否</td>
+                            <td>最大互动成本</td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>页码，默认为1</td>
+                        </tr>
+                        <tr>
+                            <td>page_size</td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>每页数量，默认为20</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>响应示例</h4>
+                <div class="code-block">
+                    <span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;<span class="code-string">"status"</span>: <span class="code-number">200</span>,<br>
+                    &nbsp;&nbsp;<span class="code-string">"data"</span>: <span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"total"</span>: <span class="code-number">1245</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"kols"</span>: <span class="code-keyword">[</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">{</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"kol_id"</span>: <span class="code-string">"user_123456"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"name"</span>: <span class="code-string">"美妆达人小A"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"fans_count"</span>: <span class="code-number">125000</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"category"</span>: <span class="code-string">"美妆,护肤"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"avg_cpe"</span>: <span class="code-number">0.58</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"avg_cpm"</span>: <span class="code-number">25.3</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"conversion_rate"</span>: <span class="code-number">4.2</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">}</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// ...更多达人数据</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">]</span><br>
+                    &nbsp;&nbsp;<span class="code-keyword">}</span><br>
+                    <span class="code-keyword">}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="contact" style="padding: 5rem 0; background-color: var(--light);">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我们</h2>
+            </div>
+            
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">如需了解更多关于MCP数据赋能平台的信息，或申请API访问权限，请通过以下方式联系我们。</p>
+                
+                <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+                    <div>
+                        <i class="fas fa-envelope" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                        <div>contact@mcpdata.com</div> 
+                    </div>
+                    <div>
+                        <i class="fas fa-phone" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                        <div>400-888-8888</div>
+                    </div>
+                </div>
+                
+                <a href="#" class="cta-button">申请试用</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">关于我们</a>
+                <a href="#">服务条款</a>
+                <a href="#">隐私政策</a>
+                <a href="#">帮助中心</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            
+            <div class="copyright">
+                © 2025 MCP数据赋能平台. 保留所有权利.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 初始化图表 
+        document.addEventListener('DOMContentLoaded',  function() {
+            // 销量趋势图表 
+            const salesChart = echarts.init(document.getElementById('salesChart')); 
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['实际销量', '预测区间']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true 
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['4/1', '4/2', '4/3', '4/4', '4/5', '4/6', '4/7', '4/8', '4/9', '4/10'],
+                    axisLine: {
+                        lineStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        lineStyle: {
+                            color: '#999'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '实际销量',
+                        type: 'line',
+                        smooth: true,
+                        data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 234],
+                        itemStyle: {
+                            color: '#FF2442'
+                        },
+                        lineStyle: {
+                            width: 3 
+                        },
+                        symbolSize: 8,
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0,  0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: 'rgba(255, 36, 66, 0.3)'
+                                },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(255, 36, 66, 0.1)'
+                                }
+                            ])
+                        }
+                    },
+                    {
+                        name: '预测区间',
+                        type: 'line',
+                        data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 180],
+                        symbol: 'none',
+                        lineStyle: {
+                            opacity: 0 
+                        },
+                        stack: 'confidence-band',
+                        areaStyle: {
+                            color: 'rgba(255, 107, 129, 0.2)'
+                        }
+                    },
+                    {
+                        name: '预测区间',
+                        type: 'line',
+                        data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 120],
+                        symbol: 'none',
+                        lineStyle: {
+                            opacity: 0 
+                        },
+                        areaStyle: {
+                            color: 'rgba(255, 107, 129, 0.2)'
+                        },
+                        stack: 'confidence-band'
+                    }
+                ]
+            };
+            
+            salesChart.setOption(option); 
+            
+            // 响应式调整 
+            window.addEventListener('resize',  function() {
+                salesChart.resize(); 
+            });
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI智能回评系统 - 商业解决方案</title>
+    <link href="https://s2.ssl.qhres2.com/static/56662140ef7d5d03.css"  rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css"  rel="stylesheet">
+    <script src="https://s2.ssl.qhres2.com/!2dd0bbf7/echats.js"></script> 
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --accent: #ff006e;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --success: #38b000;
+            --warning: #ffbe0b;
+            --danger: #ef233c;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card {
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-card {
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58,134,255,0.1) 0%, rgba(131,56,236,0.1) 100%);
+            z-index: -1;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #2a75e6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-accent:hover {
+            background: #e60063;
+            transform: translateY(-2px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .chart-container {
+            height: 300px;
+            width: 100%;
+        }
+        
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-popular {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-gray-800">
+                    <span class="text-primary">AI</span>Review 
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#features" class="nav-link text-gray-600 hover:text-primary">功能</a>
+                <a href="#solutions" class="nav-link text-gray-600 hover:text-primary">解决方案</a>
+                <a href="#stats" class="nav-link text-gray-600 hover:text-primary">数据</a>
+                <a href="#pricing" class="nav-link text-gray-600 hover:text-primary">定价</a>
+                <a href="#testimonials" class="nav-link text-gray-600 hover:text-primary">案例</a>
+            </div>
+            <div class="hidden md:block">
+                <button class="btn-primary text-white px-6 py-2 rounded-full font-medium">免费试用</button>
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+ 
+    <!-- 英雄区域 -->
+    <section class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">AI智能回评系统</h1>
+                    <p class="text-xl mb-8 opacity-90">赋能企业自动化处理电商与社媒评价，提升品牌运营效率与客户满意度</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="btn-accent text-white px-8 py-3 rounded-full font-medium">立即体验</button>
+                        <button class="bg-white text-primary px-8 py-3 rounded-full font-medium">查看演示</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 fade-in">
+                    <div class="bg-white rounded-xl p-6 shadow-2xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="font-medium">用户评价</div>
+                                <div class="text-xs text-gray-500">5分钟前</div>
+                            </div>
+                        </div>
+                        <div class="mb-4 text-gray-700">
+                            "衣服质量很好，穿上效果超出预期！物流也很快，非常满意的一次购物体验。"
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white mr-3">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="font-medium">AI回复</div>
+                            </div>
+                            <div class="text-gray-700">
+                                "非常感谢您的支持与认可！我们会继续努力为您提供更优质的产品和服务。期待您的再次光临！"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 合作平台 -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-center text-2xl font-semibold text-gray-700 mb-12">支持主流电商与社交媒体平台</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fab fa-taobao text-3xl text-orange-500"></i>
+                    </div>
+                    <div class="font-medium">淘宝</div>
+                </div>
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fas fa-store text-3xl text-red-500"></i>
+                    </div>
+                    <div class="font-medium">天猫</div>
+                </div>
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fas fa-shopping-bag text-3xl text-green-500"></i>
+                    </div>
+                    <div class="font-medium">拼多多</div>
+                </div>
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fab fa-weixin text-3xl text-green-600"></i>
+                    </div>
+                    <div class="font-medium">小红书</div>
+                </div>
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fab fa-jd text-3xl text-red-600"></i>
+                    </div>
+                    <div class="font-medium">京东</div>
+                </div>
+                <div class="text-center">
+                    <div class="platform-icon mb-3">
+                        <i class="fab fa-douyin text-3xl text-blue-500"></i>
+                    </div>
+                    <div class="font-medium">抖音</div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 核心功能 -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">AI智能回评核心功能</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">利用先进AI技术自动化处理客户评价，提升品牌形象与运营效率</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 功能卡片1 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary mb-6">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">即时自动回复</h3>
+                    <p class="text-gray-600 mb-4">客户评价后5秒内自动生成个性化回复，大幅提升响应速度与客户满意度。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>支持正面评价自动感谢</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>负面评价智能安抚</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>7×24小时不间断服务</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 功能卡片2 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-secondary mb-6">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">情感分析与分类</h3>
+                    <p class="text-gray-600 mb-4">基于NLP技术准确识别评价情感倾向，自动分类处理，确保回复精准匹配。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>情感极性分析(正面/负面/中性)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>评价主题自动归类</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>紧急问题优先处理</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 功能卡片3 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-accent bg-opacity-10 flex items-center justify-center text-accent mb-6">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">数据洞察与报表</h3>
+                    <p class="text-gray-600 mb-4">深度分析评价数据，生成可视化报表，助力企业决策与产品优化。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>评价趋势分析</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>关键词词云展示</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>自定义报表导出</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 功能卡片4 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-purple-500 bg-opacity-10 flex items-center justify-center text-purple-500 mb-6">
+                        <i class="fas fa-language text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">多语言支持</h3>
+                    <p class="text-gray-600 mb-4">支持全球主流语言自动翻译与回复，助力企业国际化发展。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>中英双语自动切换</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>20+语言翻译支持</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>本地化表达优化</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 功能卡片5 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-green-500 bg-opacity-10 flex items-center justify-center text-green-500 mb-6">
+                        <i class="fas fa-sliders-h text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">个性化配置</h3>
+                    <p class="text-gray-600 mb-4">灵活配置回复策略与话术模板，完美匹配品牌调性与业务需求。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>自定义回复模板库</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>品牌术语自动匹配</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>回复风格灵活调整</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 功能卡片6 -->
+                <div class="feature-card bg-white p-8">
+                    <div class="w-14 h-14 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center text-yellow-500 mb-6">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">智能审核机制</h3>
+                    <p class="text-gray-600 mb-4">多重审核确保回复质量，避免AI误判风险，保障品牌声誉。</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>敏感词自动过滤</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>人工复核机制</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>风险评价预警</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 解决方案 -->
+    <section id="solutions" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">行业解决方案</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">针对不同行业特点定制AI回评策略，最大化商业价值</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 电商解决方案 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-6xl text-white opacity-80"></i>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-4">电商行业解决方案</h3>
+                        <p class="text-gray-600 mb-6">针对电商平台评价特点，优化自动回复策略，提升店铺评分与转化率。</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3 text-gray-800">核心优势</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>DSR评分提升保障</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>负面评价快速安抚</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>促销活动自动匹配</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium mb-3 text-gray-800">适用场景</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">淘宝/天猫</span>
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">京东</span>
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">拼多多</span>
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">跨境电商</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 社媒解决方案 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center">
+                        <i class="fas fa-share-alt text-6xl text-white opacity-80"></i>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-4">社交媒体解决方案</h3>
+                        <p class="text-gray-600 mb-6">针对社交媒体互动特点，打造品牌个性化沟通，增强用户粘性与口碑传播。</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3 text-gray-800">核心优势</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>品牌人设一致性维护</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>热点话题快速响应</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>UGC内容自动激励</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium mb-3 text-gray-800">适用场景</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">小红书</span>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">抖音</span>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">微博</span>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">B站</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 数据统计 -->
+    <section id="stats" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">数据驱动的商业价值</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">AI智能回评系统为企业带来的可量化效益</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <!-- 数据卡片1 -->
+                <div class="stat-card bg-white p-8 shadow-sm">
+                    <div class="text-4xl font-bold text-primary mb-3">87%</div>
+                    <h3 class="text-lg font-semibold mb-2">回复效率提升</h3>
+                    <p class="text-gray-600">平均响应时间从4小时缩短至5分钟内</p>
+                </div>
+                
+                <!-- 数据卡片2 -->
+                <div class="stat-card bg-white p-8 shadow-sm">
+                    <div class="text-4xl font-bold text-primary mb-3">4.8★</div>
+                    <h3 class="text-lg font-semibold mb-2">平均评分提升</h3>
+                    <p class="text-gray-600">店铺评分平均提升0.5-1.2个星级</p>
+                </div>
+                
+                <!-- 数据卡片3 -->
+                <div class="stat-card bg-white p-8 shadow-sm">
+                    <div class="text-4xl font-bold text-primary mb-3">65%</div>
+                    <h3 class="text-lg font-semibold mb-2">人力成本降低</h3>
+                    <p class="text-gray-600">客服团队评价处理工作量大幅减少</p>
+                </div>
+                
+                <!-- 数据卡片4 -->
+                <div class="stat-card bg-white p-8 shadow-sm">
+                    <div class="text-4xl font-bold text-primary mb-3">32%</div>
+                    <h3 class="text-lg font-semibold mb-2">复购率提升</h3>
+                    <p class="text-gray-600">及时互动带来更高客户忠诚度</p>
+                </div>
+            </div>
+            
+            <!-- 数据图表 -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4">评价情感分布趋势</h3>
+                    <div class="chart-container" id="sentimentChart"></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4">评价回复效率对比</h3>
+                    <div class="chart-container" id="efficiencyChart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 定价方案 -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">灵活定价方案</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">根据企业规模与需求选择最适合的方案</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- 基础版 -->
+                <div class="pricing-card bg-white relative">
+                    <div class="p-8">
+                        <h3 class="text-xl font-semibold mb-2">基础版</h3>
+                        <p class="text-gray-600 mb-6">适合初创企业与小型店铺</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">¥299</span>
+                            <span class="text-gray-500">/月</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>每日最多500条评价处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>基础回复模板库</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>1个电商平台接入</span>
+                            </li>
+                            <li class="flex items-start text-gray-400">
+                                <i class="fas fa-times mt-1 mr-2"></i>
+                                <span>无社交媒体接入</span>
+                            </li>
+                            <li class="flex items-start text-gray-400">
+                                <i class="fas fa-times mt-1 mr-2"></i>
+                                <span>基础数据分析</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-gray-100 text-gray-800 py-3 rounded-lg font-medium hover:bg-gray-200 transition">选择方案</button>
+                    </div>
+                </div>
+                
+                <!-- 专业版 -->
+                <div class="pricing-card bg-white relative">
+                    <div class="pricing-popular">最受欢迎</div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-semibold mb-2">专业版</h3>
+                        <p class="text-gray-600 mb-6">适合中型企业与多平台商家</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">¥899</span>
+                            <span class="text-gray-500">/月</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>每日最多3000条评价处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>高级回复模板库</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>3个平台接入(电商+社媒)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>情感分析与分类</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>高级数据分析报表</span>
+                            </li>
+                        </ul>
+                        <button class="w-full btn-primary text-white py-3 rounded-lg font-medium">选择方案</button>
+                    </div>
+                </div>
+                
+                <!-- 企业版 -->
+                <div class="pricing-card bg-white relative">
+                    <div class="p-8">
+                        <h3 class="text-xl font-semibold mb-2">企业版</h3>
+                        <p class="text-gray-600 mb-6">适合大型企业与品牌集团</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">¥2,999</span>
+                            <span class="text-gray-500">/月</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>无限量评价处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>定制回复策略</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>多平台无限接入</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>多语言支持</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>定制数据洞察与API</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-gray-100 text-gray-800 py-3 rounded-lg font-medium hover:bg-gray-200 transition">联系我们</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 客户案例 -->
+    <section id="testimonials" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">客户成功案例</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">来自各行业领先企业的真实反馈</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 案例1 -->
+                <div class="testimonial-card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-tshirt text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">时尚服饰品牌</div>
+                            <div class="text-sm text-gray-500">月销5000+</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"使用AI智能回评系统后，我们的店铺DSR评分从4.6提升至4.9，客服工作量减少60%，客户投诉率下降45%。"</p>
+                    <div class="flex items-center">
+                        <div class="flex mr-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <div class="text-sm text-gray-600">张经理，运营总监</div>
+                    </div>
+                </div>
+                
+                <!-- 案例2 -->
+                <div class="testimonial-card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-utensils text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">连锁餐饮品牌</div>
+                            <div class="text-sm text-gray-500">全国200+门店</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"系统自动处理大众点评评价，负面评价响应时间从平均8小时缩短至15分钟，顾客满意度显著提升。"</p>
+                    <div class="flex items-center">
+                        <div class="flex mr-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <div class="text-sm text-gray-600">李总，品牌负责人</div>
+                    </div>
+                </div>
+                
+                <!-- 案例3 -->
+                <div class="testimonial-card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-baby-carriage text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">母婴电商</div>
+                            <div class="text-sm text-gray-500">行业TOP10</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"AI回评系统帮助我们建立了更温暖的品牌形象，个性化回复让顾客感受到真诚关怀，复购率提升28%。"</p>
+                    <div class="flex items-center">
+                        <div class="flex mr-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star-half-alt text-yellow-400"></i>
+                        </div>
+                        <div class="text-sm text-gray-600">王女士，CRM经理</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- CTA -->
+    <section class="py-20 hero-gradient text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">立即体验AI智能回评的强大功能</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">14天免费试用，无需信用卡，立即提升您的品牌运营效率</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button class="btn-accent text-white px-8 py-3 rounded-full font-medium">免费开始试用</button>
+                <button class="bg-white text-primary px-8 py-3 rounded-full font-medium">预约产品演示</button>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold text-white mb-4">
+                        <span class="text-primary">AI</span>Review 
+                    </div>
+                    <p class="mb-4">领先的AI智能回评解决方案提供商，赋能企业数字化客户沟通。</p>
+                    <div class="flex space-x-4">
+                        <a class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-500 hover:text-white transition">
+                            <i class="fab fa-weibo"></i>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-500 hover:text-white transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4">产品</h3>
+                    <ul class="space-y-2">
+                        <li><a class="hover:text-white transition">功能</a></li>
+                        <li><a class="hover:text-white transition">定价</a></li>
+                        <li><a class="hover:text-white transition">集成</a></li>
+                        <li><a class="hover:text-white transition">更新日志</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4">资源</h3>
+                    <ul class="space-y-2">
+                        <li><a class="hover:text-white transition">帮助中心</a></li>
+                        <li><a class="hover:text-white transition">开发者API</a></li>
+                        <li><a class="hover:text-white transition">社区论坛</a></li>
+                        <li><a class="hover:text-white transition">行业报告</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4">联系我们</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                            <span>上海市浦东新区张江高科技园区</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2"></i>
+                            <span>400-888-XXXX</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2"></i>
+                            <span>contact@aireview.com</span> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    © 2025 AIReview. 保留所有权利。
+                </div>
+                <div class="flex space-x-6">
+                    <a class="hover:text-white transition">隐私政策</a>
+                    <a class="hover:text-white transition">服务条款</a>
+                    <a class="hover:text-white transition">Cookie政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+ 
+    <script>
+        // 初始化图表 
+        document.addEventListener('DOMContentLoaded',  function() {
+            // 情感分布图表 
+            const sentimentChart = echarts.init(document.getElementById('sentimentChart')); 
+            sentimentChart.setOption({ 
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['正面评价', '负面评价', '中性评价']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true 
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['1月', '2月', '3月', '4月', '5月', '6月']
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%'
+                    }
+                },
+                series: [
+                    {
+                        name: '正面评价',
+                        type: 'bar',
+                        stack: 'total',
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [62, 65, 68, 72, 75, 78],
+                        itemStyle: {
+                            color: '#38b000'
+                        }
+                    },
+                    {
+                        name: '负面评价',
+                        type: 'bar',
+                        stack: 'total',
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [15, 12, 10, 8, 7, 5],
+                        itemStyle: {
+                            color: '#ef233c'
+                        }
+                    },
+                    {
+                        name: '中性评价',
+                        type: 'bar',
+                        stack: 'total',
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [23, 23, 22, 20, 18, 17],
+                        itemStyle: {
+                            color: '#ffbe0b'
+                        }
+                    }
+                ]
+            });
+            
+            // 效率对比图表 
+            const efficiencyChart = echarts.init(document.getElementById('efficiencyChart')); 
+            efficiencyChart.setOption({ 
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data: ['人工回复', 'AI回复']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true 
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '响应时间(分钟)',
+                        min: 0,
+                        max: 300,
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '人工回复',
+                        type: 'line',
+                        areaStyle: {
+                            opacity: 0.1 
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [240, 235, 260, 280, 250, 270, 300],
+                        itemStyle: {
+                            color: '#8338ec'
+                        },
+                        smooth: true 
+                    },
+                    {
+                        name: 'AI回复',
+                        type: 'line',
+                        areaStyle: {
+                            opacity: 0.1 
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [5, 4, 3, 4, 5, 4, 5],
+                        itemStyle: {
+                            color: '#3a86ff'
+                        },
+                        smooth: true 
+                    }
+                ]
+            });
+            
+            // 响应式调整图表大小 
+            window.addEventListener('resize',  function() {
+                sentimentChart.resize(); 
+                efficiencyChart.resize(); 
+            });
+        });
+    </script>
+</body>
+</html>
